@@ -23,6 +23,18 @@ jobs:
         python -m pip install --upgrade pip
         pip install setuptools wheel
 
+    - name: Create GitHub Release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref_name }}
+        release_name: Release ${{ github.ref_name }}
+        body: |
+          New release ${{ github.ref_name }} is now available.
+        draft: false
+        prerelease: false
+
     - name: Build package
       run: |
         python setup.py sdist bdist_wheel
